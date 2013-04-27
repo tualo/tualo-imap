@@ -1,0 +1,32 @@
+{
+  "name": "tualo-imap",
+  "version": "0.0.1",
+  "author": {
+    "name": "Thomas Hoffmann",
+    "email": "thomas.hoffmann@tualo.de"
+  },
+  "description": "An IMAP module for node.js that makes communicating with IMAP servers easy",
+  "main": "./lib/imap",
+  "engines": {
+    "node": ">=0.8.0"
+  },
+	"keywords": [
+    "imap",
+    "mail",
+    "email",
+    "reader",
+    "client"
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "LICENSE"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/mscdex/node-imap.git"
+  },
+  "readmeFilename": "README.md",
+  "_id": "tualo-imap@0.0.1",
+}
