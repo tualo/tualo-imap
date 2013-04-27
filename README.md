@@ -58,7 +58,8 @@ imap.chained()
 	.fetch(1,'RFC822','body1') // fetch the hole mail
 	.logout()
 	.execute();
-	
+```
+
 API
 ===
 
