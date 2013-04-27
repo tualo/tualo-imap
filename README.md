@@ -29,8 +29,9 @@ var imap = new Imap({
 	user: 'mygmailname@gmail.com',
 	password: 'mygmailpassword',
 	host: 'imap.gmail.com',
-	port: 993,
-	secure: true
+	port: 143,
+	secure: true,
+	debug: false
 }); 
 
 imap.on('error',function(conn,err){
@@ -46,18 +47,22 @@ imap.on('error chained',function(conn,keyName,msg,shortmsg){
 	console.log('[test] error chained ('+keyName+'): '+msg+' '+shortmsg);
 })
 
-imap.on('chained',function(imap){
+imap.on('chained',function(conn){
 	console.log('[test] chain finished');
-	console.log(imap.get('body1'));
+	console.log(imap.get('inbox list')); // show the list result
+	console.log(imap.get('search result')); // show the search result
+	console.log(imap.get('fetch result')); // show the fetch result
 })
 
 imap.chained()
 	.connect()
-	.login()
-	.select('inbox','key1') // open the inbox
-	.fetch(1,'RFC822','body1') // fetch the hole mail
-	.logout()
-	.execute();
+	.login() // login
+	.select('inbox') // open the inbox
+	.list('inbox','*','inbox list') // list all boxes in inbox, 
+	.search('BODY "some text"','','search result') // searches for *some text* in the body text
+	.fetch(1,'RFC822','fetch result') // fechtes the full mail number 1
+	.logout() // logout
+	.execute(); // execute the chain
 ```
 
 API
@@ -106,45 +111,68 @@ require('tualo-imap') returns one object: **Connection**.
   Execute chained commands. If an error occoured the chain stop at that point and 
   emits the *error chained*. The chained *chained* will be emmited when all commands was executed successfully
 
-## Connection.login(optional:key)
+## Connection.login([key]:string)
 
   Sends the login to the Server.
   Emits *LOGIN* (or the key name) on success and *imap error* on failure
+  
+  -key is the name for storing the result, it can be read with get @see {Connection}.get()
 
-## Connection.capability(optional:key)
+## Connection.capability([key]:string)
 
   Sends the capability-command to the Server.
   Emits *CAPABILITY* (or the key name) on success and *imap error* on failure
+  
+  -key is the name for storing the result, it can be read with get @see {Connection}.get()
 
-## Connection.select(the:box, optional:key)
+## Connection.select(box:string, [key]:string)
 
   Sends the select-command to the Server.
-  Emits *SELECT* (or the key name) on success and *imap error* on failure
+  Emits *SELECT* (or the key name) on success and *imap error* on failure.
+  
+  -box is the name of the mailbox to be selected (ie. "INBOX")
+  -key is the name for storing the result, it can be read with get @see {Connection}.get()
 
-## Connection.fetch(the:number, the:string, optional:key)
+## Connection.list(reference:string, name:string, [key]:string)
+
+  List all mailboxes that matches to the given name within the reference.
+  Emits *LIST* (or the key name) on success and *imap error* on failure.
+  
+  -reference the box from where the listing starts (ie. "INBOX")
+  -name of the mailboxes to be listet  (wildcards "*" are possible)  {@link http://www.faqs.org/rfcs/rfc3501.html} (section 6.3.8)
+  -key is the name for storing the result, it can be read with get @see {Connection}.get()
+
+## Connection.search(criteria:string, charset:string, [key]:string)
+
+  Searches the mailbox for messages that match the given searching criteria.
+  Emits *SEARCH* (or the key name) on success and *imap error* on failure
+  
+  -criteria you are seaching for. Have a look at {@link http://www.faqs.org/rfcs/rfc3501.html} (section 6.4.4)
+  -charset the charset for searching
+  -key is the name for storing the result, it can be read with get @see {Connection}.get()
+
+## Connection.fetch(number:number, item:string, [key]:string)
 
   Fetches the message with the given number.
   Emits *FETCH* (or the key name) on success and *imap error* on failure
+  
+  -number the number of the message to be fechted (ie. Numbers received by SEARCH)
+  -item the message item  {@link http://www.faqs.org/rfcs/rfc3501.html} (section 6.4.5)
+  -key is the name for storing the result, it can be read with get @see {Connection}.get()
 
-## Connection.fetchMessage(the:number, optional:key)
-
-  Fetches the message with the given number.
-  Emits *FETCH* (or the key name) on success and *imap error* on failure
-
-## Connection.fetchHeader(the:number, optional:key)
-
-  Fetches the message header with the given number.
-  Emits *BODYHEADER* (or the key name) on success and *imap error* on failure
-
-## Connection.fetchBody(the:number, optional:key)
-
-  Fetches the message text with the given number.
-  Emits *BODYTEXT* (or the key name) on success and *imap error* on failure
-
-## Connection.logout(optional:key)
+## Connection.logout([key]:string)
 
   Send the logout command.
   Emits *LOGOUT* (or the key name) on success and *imap error* on failure
+  
+  -key is the name for storing the result, it can be read with get @see {Connection}.get()
+
+## Connection.sendRawCommand(command:string, key:string)
+
+  Send a command to the server.
+  
+  -command the raw IMAP command
+  -key is the name for storing the result, it can be read with get @see {Connection}.get()
 
 ## Connection._send()
 
