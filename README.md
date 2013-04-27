@@ -10,7 +10,7 @@ Requirements
 ============
 
 * [node.js](http://nodejs.org/) -- v0.8.0 or newer
-* An IMAP server
+* An IMAP Account
 
 
 Installation
