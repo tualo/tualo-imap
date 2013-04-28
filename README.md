@@ -25,9 +25,18 @@ Folowing IMAP commands are implemented now.
 
 * login
 * logout
-* search
-* list
-* fetch
+* search (search in a mailboxe)
+* list (list mailboxes)
+* fetch (fetch a mail)
+* create (create a mailbox)
+* delete (delete a mailbox)
+* rename (rename a mailbox)
+* subscripe
+* unsubscripe
+* lsub
+* expunge
+* store
+* copy
 
 
 Example
@@ -145,6 +154,77 @@ require('tualo-imap') returns one object: **Connection**.
   -box is the name of the mailbox to be selected (ie. "INBOX")
   -key is the name for storing the result, it can be read with get @see {Connection}.get()
 
+## Connection.examine(box:string, [key]:string)
+
+  Sends the examine-command to the Server.
+  Emits *EXAMINE* (or the key name) on success and *imap error* on failure.
+  
+  -box is the name of the mailbox to be selected (ie. "INBOX")
+  -key is the name for storing the result, it can be read with get @see {Connection}.get()
+
+## Connection.create(box:string, [key]:string)
+
+  Create the given mailbox.
+  Emits *CREATE* (or the key name) on success and *imap error* on failure.
+  
+  -box is the name of the mailbox to be selected (ie. "INBOX")
+  -key is the name for storing the result, it can be read with get @see {Connection}.get()
+
+## Connection.delete(box:string, [key]:string)
+
+  Delete the given mailbox
+  Emits *EXAMINE* (or the key name) on success and *imap error* on failure.
+  
+  -box is the name of the mailbox to be selected (ie. "INBOX")
+  -key is the name for storing the result, it can be read with get @see {Connection}.get()
+
+## Connection.delete(box:string, [key]:string)
+
+  Rename the given mailbox (box) to newname.
+  Emits *RENAME* (or the key name) on success and *imap error* on failure.
+  
+  -box is the name of the mailbox to be selected (ie. "INBOX")
+  -key is the name for storing the result, it can be read with get @see {Connection}.get()
+
+## Connection.subscripe(box:string, [key]:string)
+
+  Subscripe the given mailbox.
+  Emits *SUBSCRIBE* (or the key name) on success and *imap error* on failure.
+  
+  -box is the name of the mailbox to be selected (ie. "INBOX")
+  -key is the name for storing the result, it can be read with get @see {Connection}.get()
+
+## Connection.unsubscripe(box:string, [key]:string)
+
+  Unsubscripe the given mailbox.
+  Emits *UNSUBSCRIBE* (or the key name) on success and *imap error* on failure.
+  
+  -box is the name of the mailbox to be selected (ie. "INBOX")
+  -key is the name for storing the result, it can be read with get @see {Connection}.get()
+
+## Connection.unsubscripe()
+
+  Delete all messages that have the \Deleted flag.
+  Emits *EXPUNGE* (or the key name) on success and *imap error* on failure.
+  *
+
+## Connection.store(sequence:string, dataitem:string, value:array, [key]:string)
+
+  Alters data associated with a message in the mailbox. @link http://www.faqs.org/rfcs/rfc3501.html (section 6.4.6)
+
+## Connection.copy(sequence:string, box:string, [key]:string)
+
+  Copies the given message(s) to the end of the mailbox. @link http://www.faqs.org/rfcs/rfc3501.html (section 6.4.7)
+
+## Connection.lsub(reference:string, name:string, [key]:string)
+
+  List all subscriped mailboxes.
+  Emits *LSUB* (or the key name) on success and *imap error* on failure.
+  
+  -reference the box from where the listing starts (ie. "INBOX")
+  -name of the mailboxes to be listet  (wildcards "*" are possible)  {@link http://www.faqs.org/rfcs/rfc3501.html} (section 6.3.9)
+  -key is the name for storing the result, it can be read with get @see {Connection}.get()
+
 ## Connection.list(reference:string, name:string, [key]:string)
 
   List all mailboxes that matches to the given name within the reference.
@@ -170,6 +250,20 @@ require('tualo-imap') returns one object: **Connection**.
   
   -number the number of the message to be fechted (ie. Numbers received by SEARCH)
   -item the message item  {@link http://www.faqs.org/rfcs/rfc3501.html} (section 6.4.5)
+  -key is the name for storing the result, it can be read with get @see {Connection}.get()
+
+## Connection.starttls([key]:string)
+
+  Send the startls command.
+  Emits *STARTTLS* (or the key name) on success and *imap error* on failure
+  !!!! UNTESTET !!!!
+  -key is the name for storing the result, it can be read with get @see {Connection}.get()
+
+## Connection.starttls([key]:string)
+
+  Send the noop command.
+  Emits *NOOP* (or the key name) on success and *imap error* on failure
+  
   -key is the name for storing the result, it can be read with get @see {Connection}.get()
 
 ## Connection.logout([key]:string)
