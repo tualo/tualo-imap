@@ -18,10 +18,22 @@ Installation
 
     npm install tualo-imap
 
+Implemented
+============
+
+Folowing IMAP commands are implemented now.
+
+* login
+* logout
+* search
+* list
+* fetch
+
+
 Example
 =======
 
-* Fetch the message number 1 from the inbox
+* Fetch the message number 1 from the inbox, command can be chained and executed at one time. But they can also executed separatly.
 
 ```javascript
 var Imap = require('tualo-imap');
