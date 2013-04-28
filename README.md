@@ -202,3 +202,57 @@ require('tualo-imap') returns one object: **Connection**.
 ## Connection._executeNextCommand()
 
   Internal helper for executing the command-chain.
+	
+## Message()
+
+  Create a new instance of Message. 
+  Message parses a messages of th IMAP server.
+  
+  -rawText of the message recieved from th IMAP server.
+
+## Message.toString()
+
+  Returns the raw message text.
+
+## Message.getList()
+
+  Return all parsed list entries.
+  Return a list of all List entries.
+  (ie. [{text: 'INBOX',children: true},{text: 'BOX2',children: true}]
+
+## Message.getSearchList()
+
+  Return all parsed search numbers.
+  ie. ['9','11','12',...]
+
+## Message.getFetched()
+
+  Return the parsed Fetch-Object.
+
+## Message._parse()
+
+  Parses the message.
+
+## Message._parseLine()
+
+  Parses a single line.
+
+## Message._parseFetch()
+
+  Parses a fetch line.
+
+## Message._adressStruct()
+
+  Parses an address struct.
+
+## Message._listEntry(str:string)
+
+  Parses an list entry, check if it's set to *NIL* and removes double qoutes at the begining and at the end of the entry.
+
+## Message._parenthesizedList(str:string)
+
+  Parses an parenthesized list entry.
+
+## Message._fetchParam(startPos:number, line:string, countFor:string, waitFor:string)
+
+  Parses an String and return the first string between *countFor* and *waitFor*.
