@@ -37,6 +37,7 @@ Folowing IMAP commands are implemented now.
 * expunge
 * store
 * copy
+* noop
 
 
 Example
