@@ -27,6 +27,5 @@
 		"type": "git",
 		"url": "git://github.com/tualo/tualo-imap.git"
 	},
-	"readmeFilename": "README.md",
-	"_id": "tualo-imap@0.0.1"
+	"readmeFilename": "README.md"
 }
